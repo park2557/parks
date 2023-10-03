@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int initializedGlobalVariable = 0;
+int uninitializedGlobalVariable;
+
+int main()
+{
+    char *strPointer = "First String";
+    char stringArray[100] = "Second String";
+    const char stringContant[100] = "Constant String";
+
+    static int initializedInt = 1;
+    static int uninitializedInt;
+	
+	int  *ip;
+	
+	ip = (int *)malloc(sizeof(int));
+
+    printf("%p -> main 함수 위치\n", main);
+    printf("%p -> \"HELLO\" 리터럴 위치\n", "HELLO");
+    printf("%p -> strPointer변수값의 위치\n", strPointer);
+    printf("%p -> 초기화된 전역변수 위치\n", &initializedGlobalVariable);
+    printf("%p -> 초기화된 정적변수 위치\n", &initializedInt);
+    printf("%p -> 초기화 안된 전역변수 위치\n", &uninitializedGlobalVariable);
+    printf("%p -> 초기화 안된 정변수 위치\n", &uninitializedInt);
+    printf("%p -> strPointer변수의 위치\n", &strPointer);
+    printf("%p -> stringArray 배열의 위치\n", stringArray);
+    printf("%p -> stringContant 상수 변수의 위치\n", stringContant);
+    printf("%ld -> malloc한 정수의 위치\n", (long int)ip);
+	
+    return 0;
+}
+/*
+main 함수가 가장 낮은 메모리에 존재하는 것이 맞고, 
+그 보다 조금 높은 곳에 위치한 것이 RO Data 영역에 있는 Hello라는
+문자열 리터럴임을 알 수 있다. 
+그리고 "First String"과 같이 초기화에 사용된 문자열 리터럴이 
+RO Data 영역보다 조금 더 높은 Init 영역에 위치한 것을 볼 수 있고, 
+BSS 영역에 위치한 초기화 되지 않은 전역 및 정적 변수가 Init 영역보다 
+높은 곳에 위치한 것을 볼 수 있다. 
+이어서 Data 영역에 존재하는 초기화 된 변수들이 위치하는 것을 볼 수 있고, 
+Stack에 존재하는 strPointer 변수, stringArray와 
+stringConstant 배열이 선언된 순서대로 높은 주소 값에서부터 
+나타나는 것을 볼 수 있다.
+*/

@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+
+// 리눅스 명령어 라인에서 'ulimit -s Size' 명령어로 가능. 'ulimit -a'로 확인
+
+int main(void)
+{
+	struct rlimit rlim;
+	
+	// Current Stack Size
+	getrlimit(RLIMIT_STACK, &rlim);
+	printf("Current Stack Size : %dKB\n", (int)rlim.rlim_cur/1000);
+	printf("Current Max Stack Size : %dKB\n", (int)rlim.rlim_max/1000);
+	
+	// Modify Stack Size
+	rlim.rlim_cur = 1024*1024*16;
+	rlim.rlim_max = 1024*1024*16;
+	setrlimit(RLIMIT_STACK, &rlim);
+	printf("Current Stack Size : %dKB\n", (int)rlim.rlim_cur/1000);
+	printf("Current Max Stack Size : %dKB\n", (int)rlim.rlim_max/1000);
+}
